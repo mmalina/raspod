@@ -27,6 +27,6 @@ RSS_ITEMS=15 #How many items to retain in the xml file
 #Optional. Falls back to the profile name (= file name)
 #PREFIX=...
 
-#crontable
-# m h  dom mon dow   command
-#56 17 * * * 
+#Cron item for automated processing.
+# m h dom mon dow
+CRON_ITEM='56 17 * * *'
