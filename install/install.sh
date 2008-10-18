@@ -10,6 +10,8 @@ then
 	echo "~/bin/raspod already exists, overriding..."
 fi
 cp ../bin/raspod ~/bin/
+#Make sure it's executable
+chmod +x ~/bin/raspod
 
 #Install the basic conf file if not present
 echo "Installing raspod.conf into ~/.raspod/"
