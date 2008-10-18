@@ -1,0 +1,28 @@
+#Use one of URL and PLAYLIST
+#URL=...
+PLAYLIST=http://www.lounge-radio.com/listen128.m3u
+
+#Duration in minutes
+DURATION=1
+
+#Set the id3v2 tags. All optional.
+TITLE="Example Show `date +%Y-%m-%d-%H-%M`"
+AUTHOR="Example Author"
+DESC="Example Show Description."
+#ALBUM="Example Album"
+#GENRE=255 #Set genre as a number
+
+#RSS parameters
+RSS_TITLE="Example Show"
+RSS_LINK="http://example-show.com/" #Link to the radio website
+RSS_DESC="Example description of my cool podcast." #Description of the podcast
+RSS_ITEMS=15 #How many items to retain in the xml file
+
+#The basic podcasts dir. The final dir is $DEST_DIR/$PREFIX
+#DEST_DIR=~/anyberry/www/raspod
+
+#The resulting url base
+#BASE_URL=http://anyberry.net/raspod
+
+#Optional. Falls back to the profile name (= file name)
+#PREFIX=...
