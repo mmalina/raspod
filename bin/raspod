@@ -29,14 +29,7 @@ do
 			;;
 		-profile) 
 			shift
-			echo Profile: $1
-			if [ -f $1.pod ]
-				then PREFIX=$1; . $1.pod
-			else if [ -f ~/.raspod/$1.pod ]
-				then PREFIX=$1; . ~/.raspod/$1.pod
-			else echo Profile not found: ~/.raspod/$1.pod ; usage
-			fi
-			fi
+			PROFILE=$1
 			;;
 		-generate-cron-items)
 			cd ~/.raspod
@@ -53,6 +46,16 @@ do
 	esac
 	shift
 done
+
+#Check if we have a profile before we begin
+if [ -f $PROFILE.pod ]
+	then PREFIX=$PROFILE; . $PROFILE.pod
+else if [ -f ~/.raspod/$PROFILE.pod ]
+	then PREFIX=$PROFILE; . ~/.raspod/$PROFILE.pod
+else 
+	echo Profile not found: ~/.raspod/$PROFILE.pod ; usage
+fi
+fi
 
 FILENAME=$PREFIX-`date +%Y-%m-%d-%H-%M`.mp3
 FILE=$DEST_DIR/$PREFIX/$FILENAME
@@ -82,7 +85,8 @@ fi
 
 #Have mplayer download the stream and kill it after a timeout
 mplayer -dumpstream -dumpfile $FILE $URL < /dev/null &
-sleep ${DURATION}m
+#Sleep interval in seconds - some systems don't support minutes
+sleep $((DURATION*60))
 kill $!
 
 #Tag the resulting file
@@ -107,10 +111,25 @@ if [ -n "$DESC" ]
 then id3v2 -c "$DESC" $FILE
 fi
 
+#Some systems don't support date -R, take care of that
+if date -R >/dev/null 2>&1
+then
+	DATE=`date -R`
+else
+	LANG_ORIG="$LANG"
+	LANG=en_US
+	DATE=`date "+%a, %d %b %Y %T %z"`
+	LANG="$LANG_ORIG"
+fi
 XML_FILE=$DEST_DIR/$PREFIX.xml
-DATE=`date -R`
 FILE_URL=$BASE_URL/$PREFIX/$FILENAME
-FILESIZE=`stat -c%s $FILE`
+#Some systems don't support the standard stat options
+if stat -c%s $FILE >/dev/null 2>&1
+then
+	FILESIZE=`stat -c%s $FILE`
+else
+	FILESIZE=`stat -f %z $FILE`
+fi
 
 #Creating the xml file for the first time
 if [ ! -f $XML_FILE ]
