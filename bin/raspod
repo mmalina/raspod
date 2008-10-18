@@ -1,16 +1,25 @@
 #!/bin/bash
 
+#Main config file location
+CONF_FILE=~/.raspod/raspod.conf
+
 function usage {
-	echo Usage: $0 -url URL -duration minutes -prefix prefix '[-destdir dir]'
+	echo Usage: $0 
 	echo "          -profile profile Uses profile.pod as a profile"
+	echo "          -generate-cron-items"
 	echo "          -help Displays this message"
         exit 1
 }
 
-DEST_DIR=~rasp/anyberry/www/raspod
-BASE_URL=http://anyberry.net/raspod
-PREFIX=misc
-DURATION=30
+#Fail if the config file is not found
+if [ ! -f $CONF_FILE ]
+then
+	echo $CONF_FILE not found, halting.
+	usage
+fi
+
+#Load the main config file
+. $CONF_FILE
 
 while [ $# -gt 0 ] 
 do
@@ -29,30 +38,14 @@ do
 			fi
 			fi
 			;;
-		-url) 
-			shift
-			echo URL: $1
-			URL=$1
-			;;
-		-playlist) 
-			shift
-			echo Playlis: $1
-			PLAYLIST=$1
-			;;
-		-duration) 
-			shift
-			echo Duration: $1
-			DURATION=$1
-			;;
-		-prefix) 
-			shift
-			echo Prefix: $1
-			PREFIX=$1
-			;;
-		-destdir) 
-			shift
-			echo Destdir: $1
-			DEST_DIR=$1
+		-generate-cron-items)
+			cd ~/.raspod
+			for POD in *.pod
+			do
+				eval "`grep CRON_ITEM $POD`"
+				echo "$CRON_ITEM" '~/bin/raspod' -profile ${POD%.pod}
+			done
+			exit
 			;;
 		*) 
 			echo unknown option $1
