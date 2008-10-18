@@ -5,6 +5,10 @@ PLAYLIST=http://www.lounge-radio.com/listen128.m3u
 #Duration in minutes
 DURATION=1
 
+#Cron item for automated processing.
+# m h dom mon dow
+CRON_ITEM='56 17 * * *'
+
 #Set the id3v2 tags. All optional.
 TITLE="Example Show `date +%Y-%m-%d-%H-%M`"
 AUTHOR="Example Author"
@@ -26,7 +30,3 @@ RSS_ITEMS=15 #How many items to retain in the xml file
 
 #Optional. Falls back to the profile name (= file name)
 #PREFIX=...
-
-#Cron item for automated processing.
-# m h dom mon dow
-CRON_ITEM='56 17 * * *'
