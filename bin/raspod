@@ -33,6 +33,7 @@ do
 			;;
 		-generate-cron-items)
 			cd ~/.raspod
+			echo "#Items for raspod profiles in ~/.raspod/"
 			for POD in *.pod
 			do
 				eval "`grep CRON_ITEM $POD`"
@@ -94,19 +95,15 @@ id3v2 -y `date +%Y` $FILE
 if [ -n "$AUTHOR" ]
 then id3v2 -a "$AUTHOR" $FILE
 fi
-
 if [ -n "$ALBUM" ]
 then id3v2 -A "$ALBUM" $FILE
 fi
-
 if [ -n "$TITLE" ]
 then id3v2 -t "$TITLE" $FILE
 fi
-
 if [ -n "$GENRE" ]
 then id3v2 -g "$GENRE" $FILE
 fi
-
 if [ -n "$DESC" ]
 then id3v2 -c "$DESC" $FILE
 fi
@@ -168,6 +165,12 @@ fi
 			type => 'audio/mpeg', \
 			length => '$FILESIZE' \
 		} \
+	); \
+	\$rss->channel(title => '$RSS_TITLE', \
+		link => '$RSS_LINK', \
+		description => '$RSS_DESCRIPTION', \
+		pubDate => '$DATE', \
+		lastBuildDate => '$DATE' \
 	); \
 	\$rss->save('$XML_FILE'); "
 
