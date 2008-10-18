@@ -17,5 +17,10 @@ if [ -f ~/.raspod/raspod.conf ]
 then
 	echo "~/raspod/raspod.conf already exists, omitting..."
 else
+	#Create the dot dir if necessary
+	if [ ! -d ~/.raspod ]
+	then
+		mkdir ~/.raspod
+	fi
 	cp ../conf/raspod.conf ~/.raspod/
 fi
