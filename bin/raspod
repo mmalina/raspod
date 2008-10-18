@@ -144,7 +144,7 @@ fi
 /usr/bin/perl -e "use XML::RSS; \
 	my \$rss = new XML::RSS; \
 	\$rss->parsefile('$XML_FILE'); \
-	while (@{\$rss->{'items'}} >= 15) { \
+	while (@{\$rss->{'items'}} >= $RSS_ITEMS) { \
 		pop(@{\$rss->{'items'}}); \
 	} \
 	\$rss->add_item(title => '$TITLE', \
