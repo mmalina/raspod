@@ -137,9 +137,9 @@ then
 <rss version="2.0">
 
 <channel>
-<title>$RSS_TITLE</title>
-<link>$RSS_LINK</link>
-<description>$RSS_DESC</description>
+<title>title</title>
+<link>link</link>
+<description>desc</description>
   <generator>raspod by anyberry.net</generator>
     </channel>
 </rss>
@@ -150,25 +150,25 @@ fi
 # Add a new entry in the rss file,
 # keep the file to a max of $RSS_ITEMS entries,
 # and change the file's date to right now.
-/usr/bin/perl -e "use XML::RSS; \
+/usr/bin/perl -e "use XML::RSS; use Encode; \
 	my \$rss = new XML::RSS; \
 	\$rss->parsefile('$XML_FILE'); \
 	while (@{\$rss->{'items'}} >= $RSS_ITEMS) { \
 		pop(@{\$rss->{'items'}}); \
 	} \
-	\$rss->add_item(title => '$TITLE', \
-		link => '$FILE_URL', \
-		description => '$DESC', \
+	\$rss->add_item(title => decode('utf8','$TITLE'), \
+		link => decode('utf8','$FILE_URL'), \
+		description => decode('utf8','$DESC'), \
 		pubDate => '$DATE', \
 		enclosure => { \
-			url => '$FILE_URL', \
+			url => decode('utf8','$FILE_URL'), \
 			type => 'audio/mpeg', \
 			length => '$FILESIZE' \
 		} \
 	); \
-	\$rss->channel(title => '$RSS_TITLE', \
-		link => '$RSS_LINK', \
-		description => '$RSS_DESCRIPTION', \
+	\$rss->channel(title => decode('utf8','$RSS_TITLE'), \
+		link => decode('utf8','$RSS_LINK'), \
+		description => decode('utf8','$RSS_DESCRIPTION'), \
 		pubDate => '$DATE', \
 		lastBuildDate => '$DATE' \
 	); \
