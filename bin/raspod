@@ -168,7 +168,7 @@ fi
 	); \
 	\$rss->channel(title => decode('utf8','$RSS_TITLE'), \
 		link => decode('utf8','$RSS_LINK'), \
-		description => decode('utf8','$RSS_DESCRIPTION'), \
+		description => decode('utf8','$RSS_DESC'), \
 		pubDate => '$DATE', \
 		lastBuildDate => '$DATE' \
 	); \
