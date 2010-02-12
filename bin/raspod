@@ -149,12 +149,12 @@ fi
 
 # Add a new entry in the rss file,
 # keep the file to a max of $RSS_ITEMS entries,
-# and change the file's date to right now.
+# and update the file's date.
 /usr/bin/perl -e "use XML::RSS; use Encode; \
 	my \$rss = new XML::RSS; \
 	\$rss->parsefile('$XML_FILE'); \
 	while (@{\$rss->{'items'}} >= $RSS_ITEMS) { \
-		pop(@{\$rss->{'items'}}); \
+		shift(@{\$rss->{'items'}}); \
 	} \
 	\$rss->add_item(title => decode('utf8','$TITLE'), \
 		link => decode('utf8','$FILE_URL'), \
